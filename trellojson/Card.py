@@ -9,8 +9,8 @@ class Card:
         self.card_date_last_activity = None
         self.card_board_id = None
         self.card_labels_id = None
-        self.list_id = None
-        self.members_id = None
+        self.card_list_id = None
+        self.card_members_id = None
         self.card_labels = None
         self.card_short_id = None
         self.card_short_link = None
@@ -26,8 +26,8 @@ class Card:
         self.card_date_last_activity = self.card_json['dateLastActivity']
         self.card_board_id = self.card_json['idBoard']
         self.card_labels_id = self.card_json['idLabels'] #json
-        self.list_id = self.card_json['idList'] 
-        self.members_id = self.card_json['idMembers'] #json
+        self.card_list_id = self.card_json['idList'] 
+        self.card_members_id = self.card_json['idMembers'] #json
         self.card_labels = self.card_json['labels'] #json
         self.card_short_id = self.card_json['idShort']
         self.card_short_link = self.card_json['shortLink']
@@ -36,8 +36,8 @@ class Card:
         self.card_position = self.card_json['pos']
 
         # Converting javascript datetime zone
-        card_date_last_activity = datetime.strptime(self.card_date_last_activity, '%Y-%m-%dT%H:%M:%S.%fZ')
-        self.card_date_last_activity = card_date_last_activity.strftime('%d/%m/%Y %H:%M:%S')
+        self.card_date_last_activity = datetime.strptime(self.card_date_last_activity, '%Y-%m-%dT%H:%M:%S.%fZ')
+        self.card_date_last_activity = self.card_date_last_activity.strftime('%d/%m/%Y %H:%M:%S')
 
 
     def original_json(self):
@@ -50,8 +50,8 @@ class Card:
             'card_date_last_activity': self.card_date_last_activity,
             'card_board_id': self.card_board_id,
             'card_labels_id': self.card_labels,
-            'list_id': self.list_id,
-            'members_id': self.members_id,
+            'card_list_id': self.card_list_id,
+            'card_members_id': self.card_members_id,
             'card_labels': self.card_labels,
             'card_short_id': self.card_short_id,
             'card_short_link': self.card_short_link,

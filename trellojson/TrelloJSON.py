@@ -14,6 +14,10 @@ class TrelloJson():
     def __init__(self):
         self.file_path = None
         self._json_data = None
+        
+        self.board_id = None
+        self.board_name = None
+        self.board_url = None
 
         self._cards = None
         self._members = None
@@ -26,14 +30,24 @@ class TrelloJson():
         self._labels_json = None
         self._actions_json = None
         
+    """
+    Metodo para carregar o json
+    Parametros: 
+        file_path: Caminho do arquivo
+        json_data: Dados em formato json(dict)
+    """
     def load(self, file_path= None, json_data=None):
         if file_path:
             self.file_path = file_path 
             self._json_data = self.read_file_from_json()
         elif json_data:
-            self._json_data = json_data
+            self._json_data = json.loads(json_data)
 
         if self._json_data:
+            self.board_id = self._json_data["id"]
+            self.board_name = self._json_data["name"]
+            self.board_url = self._json_data["url"]
+            
             self._cards_json = self._json_data["cards"]
             self._members_json = self._json_data["members"]
             self._lists_json = self._json_data["lists"]
@@ -46,7 +60,7 @@ class TrelloJson():
             return data
         return None
 
-    def get_file_json(self):
+    def json(self):
         return self._json_data
     
     @property
@@ -70,6 +84,13 @@ class TrelloJson():
                 self._cards.append(Card(card_json))
             
             return self._cards
+    
+    """
+    Metodo para retornar em uma lista json os dados de uma list de objetos do package trellojson.
+    A chave para acessar os dados e 'data'
+    """
+    def convert_to_json(self, list_object):
+        return {"data": [obj.json() for obj in list_object]}
     
     @property
     def list_members(self):
@@ -114,7 +135,7 @@ class TrelloJson():
     
     def member_by_id(self, member_id):
         for it in self._members:
-            if it.member_id == member_id:
+            if it.user_id == member_id:
                 return it
         return None
     
@@ -156,12 +177,11 @@ if __name__ == "__main__":
     #lists = trello_json.list_lists
     #print(lists)
     
-    cards = trello_json.list_cards
-    print(cards.json())
+    #cards = trello_json.list_cards
+    #print(cards)
 
     #labels = trello_json.list_labels
     #print(labels)
 
     #actions = trello_json.actions_by_type('createCard')
     #print(actions)
-    

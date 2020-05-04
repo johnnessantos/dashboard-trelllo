@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Action:
     def __init__(self, action_json):
         self.action_json = action_json
@@ -31,6 +33,10 @@ class Action:
         self.action_id = self.action_json['id']
         self.action_type = self.action_json['type']
         self.action_date = self.action_json['date']
+
+        # Converting javascript datetime zone
+        self.action_date = datetime.strptime(self.action_date, '%Y-%m-%dT%H:%M:%S.%fZ')
+        self.action_date = self.action_date.strftime('%d/%m/%Y %H:%M:%S')
 
         try:
             self.action_card_id = self.action_json['data']['card']['id']
